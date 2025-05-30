@@ -16,6 +16,8 @@ from copy import copy, deepcopy
 from datetime import datetime, timedelta
 from pathlib import Path
 
+import pickle
+
 import numpy as np
 import torch
 from torch import distributed as dist
@@ -117,6 +119,16 @@ class BaseTrainer:
             _callbacks (list, optional): List of callback functions.
         """
         self.args = get_cfg(cfg, overrides)
+
+        with open("/kaggle/working/cfg.pickle", "wb") as file:
+            pickle.dump(cfg, file)
+
+        with open("/kaggle/working/overrides.pickle", "wb") as file:
+            pickle.dump(overrides, file)
+
+        with open("/kaggle/working/args.pickle", "wb") as file:
+            pickle.dump(self.args, file)
+
         self.check_resume(overrides)
         self.device = select_device(self.args.device, self.args.batch)
         # Update "-1" devices so post-training val does not repeat search
