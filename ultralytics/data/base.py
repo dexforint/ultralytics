@@ -396,7 +396,7 @@ class BaseDataset(Dataset):
         Returns:
             (Dict[str, Any]): Label dictionary with image and metadata.
         """
-        if not os.path.exists("/kaggle/working/labels.pickle", "wb"):
+        if not os.path.exists("/kaggle/working/labels.pickle"):
             with open("/kaggle/working/labels.pickle", "wb") as file:
                 pickle.dump(self.labels, file)
             with open("/kaggle/working/label_files.pickle", "wb") as file:
