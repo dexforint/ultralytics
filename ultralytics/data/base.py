@@ -4,6 +4,7 @@ import glob
 import math
 import os
 import random
+import pickle
 from copy import deepcopy
 from multiprocessing.pool import ThreadPool
 from pathlib import Path
@@ -376,7 +377,14 @@ class BaseDataset(Dataset):
 
     def __getitem__(self, index: int) -> Dict[str, Any]:
         """Return transformed label information for given index."""
-        return self.transforms(self.get_image_and_label(index))
+        image_and_label = self.get_image_and_label(index)
+        with open("/kaggle/working/image_and_label.pickle", "wb") as file:
+            pickle.dump(image_and_label, file)
+
+        transformed = self.transforms(image_and_label)
+        with open("/kaggle/working/transformed_image_and_label.pickle", "wb") as file:
+            pickle.dump(transformed, file)
+        return transformed
 
     def get_image_and_label(self, index: int) -> Dict[str, Any]:
         """
