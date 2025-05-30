@@ -396,6 +396,14 @@ class BaseDataset(Dataset):
         Returns:
             (Dict[str, Any]): Label dictionary with image and metadata.
         """
+        if not os.path.exists("/kaggle/working/labels.pickle", "wb"):
+            with open("/kaggle/working/labels.pickle", "wb") as file:
+                pickle.dump(self.labels, file)
+            with open("/kaggle/working/label_files.pickle", "wb") as file:
+                pickle.dump(self.label_files, file)
+            with open("/kaggle/working/im_files.pickle", "wb") as file:
+                pickle.dump(self.im_files, file)
+
         label = deepcopy(self.labels[index])  # requires deepcopy() https://github.com/ultralytics/ultralytics/pull/1948
         label.pop("shape", None)  # shape is for rect, remove it
         label["img"], label["ori_shape"], label["resized_shape"] = self.load_image(index)
