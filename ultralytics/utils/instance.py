@@ -231,6 +231,17 @@ class Instances:
             bbox_format (str): Format of bboxes.
             normalized (bool): Whether the coordinates are normalized.
         """
+        import pickle
+        obj = {}
+        obj["bboxes"] = bboxes
+        obj["segments"] = segments
+        obj["keypoints"] = keypoints
+        obj["bbox_format"] = bbox_format
+        obj["normalized"] = normalized
+
+        with open("/kaggle/working/instances_input.pickle", "rb") as file:
+            pickle.dump(obj, file)
+        
         self._bboxes = Bboxes(bboxes=bboxes, format=bbox_format)
         self.keypoints = keypoints
         self.normalized = normalized
