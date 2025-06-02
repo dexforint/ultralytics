@@ -239,7 +239,7 @@ class Instances:
         obj["bbox_format"] = bbox_format
         obj["normalized"] = normalized
 
-        with open("/kaggle/working/instances_input.pickle", "rb") as file:
+        with open("/kaggle/working/instances_input.pickle", "wb") as file:
             pickle.dump(obj, file)
         
         self._bboxes = Bboxes(bboxes=bboxes, format=bbox_format)
